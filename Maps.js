@@ -1,7 +1,6 @@
-﻿//global variable
-var cordsWGS84 = {
-    'lat': 62.241642, 'lng': 25.759134,
-}
+﻿//global variable with active position
+var cordsWGS84 = { 'lat': 62.241642, 'lng': 25.759134 }; //google format when lat is first
+var zoomlevel = 13;
 
 //methods
 window.load = function ()
@@ -11,10 +10,11 @@ window.load = function ()
 };
 
 function showSMap()
-{    
-    var center = SMap.Coords.fromWGS84(25.7592386, 62.2416150); //Different order lng+lat than Google!   
+{   
+    var cords = getCordsWGS84(true); //Different order lng and lat than Google!!!
+    var center = SMap.Coords.fromWGS84(cords[0], cords[1]);
 
-    var m = new SMap(JAK.gel("mapView"), center, 13);
+    var m = new SMap(JAK.gel("mapView"), center, zoomlevel);
     m.addDefaultLayer(SMap.DEF_BASE).enable();
     m.addDefaultControls();
 
@@ -32,28 +32,30 @@ function showSMap()
 
 function showGMap()
 {
-    //var uluru = { lat: -25.363, lng: 131.044 };    
-    var center = { lat: 62.241642, lng: 25.759134 };
+    var cords = getCordsWGS84(false);    
+    var center = { lat: cords[0], lng: cords[1] };    
 
     var map = new google.maps.Map(document.getElementById('mapView'),
         {
-            zoom: 13,
+            zoom: zoomlevel,
             center: center
         });
     var marker = new google.maps.Marker({ position: center, map: map });
 }
 
-function getCordsWGS84(bool lngFirst)
+function getCordsWGS84(lngFirst) //central cords returner
 {
-
-    var a = x + 1,
-        b = y + 1;
-    return [a, b];
-
-    if (lngFirst)
+    if (lngFirst) //lngFirstForSeznamMapyAPI
     {
-        return[]
+        return [cordsWGS84.lng, cordsWGS84.lat];
     }
+    return [cordsWGS84.lat, cordsWGS84.lng]; //standard format
+}
+
+function setCordsWGS84(lat, lng) //cords handling
+{
+    this.cordsWGS84.lat = lat;
+    this.cordsWGS84.lng = lng;
 }
 
 function mapSelector(mapNameFromSelector) //for showing map by selecting
