@@ -1,0 +1,12 @@
+﻿body {
+    text-align: center;
+}
+
+nav {
+    padding: 10px;
+}
+
+.mapsView {
+    min-height: 100%;
+    height: 100%;
+}

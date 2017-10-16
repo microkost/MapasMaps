@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+<head>
+    <link rel="stylesheet" href="StyleSheet.css" media="all" type="text/css" />
+
+    <script src="maps.js"></script>
+    <!--<script src="loader.js"></script> <!--offlineuse-->    
+    <script type="text/javascript" src="https://api.mapy.cz/loader.js"></script>    
+    <script type="text/javascript">Loader.load();</script>
+
+    <title>Mapas Maps</title>
+</head>
+<body onload="mapSelector();">
+    
+
+    <nav id="menu">
+        <select id="selectMapSource" onload="mapSelector();" onchange="mapSelector(this.value);" onmousedown="this.value='';">
+            <option value="Smap">Seznam maps</option>
+            <option value="Gmap">Google Maps</option>
+            <!-- dont add more when we are not finished with these... 
+                 layers of these maps also as options! Turistic, ...
+                 OSM, BING
+                 similar to http://ondras.zarovi.cz/slides/mapyapi-fimuni/examples/podklady/ 
+             -->
+        </select>
+    </nav>
+
+    <div id="mapView" style="width:100%; height:100%;"></div>
+
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbrC1gcahZ3ugGtxRwgHyU4FeTmlGPJCg&callback=showGMapa"></script>
+
+</body>
+</html>
