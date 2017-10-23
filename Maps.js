@@ -40,8 +40,9 @@ function showSMap() {
     m.addLayer(layer);
     layer.enable();
 
-    var meteodata = getMarkerOptions();
-    if (meteodata == null)
+    var meteodata = getMarkerOptions();    
+
+    if (meteodata.length === 0)
     {
         var options = {};
         var marker = new SMap.Marker(center, "myMarker", options);
@@ -74,12 +75,16 @@ function showGMap() {
 
     var meteodata = getMarkerOptions();
     var marker = new google.maps.Marker({ position: center, map: map });
-    if (meteodata != null)
+    /*
+    if (!meteodata.length === 0) //?working?
     {
         //title unused
         var infowindow = new google.maps.InfoWindow({ content: meteodata });        
         marker.addListener('click', function () {infowindow.open(map, marker); });
     }
+    */
+    var infowindow = new google.maps.InfoWindow({ content: meteodata });
+    marker.addListener('click', function () { infowindow.open(map, marker); });
    
     
 }
@@ -179,7 +184,12 @@ function getWeatherData(lat, lng)
         $("#temperature").append("Temperature: " + temp);
         $("#weatherDescription").append("Description: " + weather_description);
         $("#windSpeed").append("Wind speed:" + wind_speed);
+
+        setMarkerOptions(city_name, temp, wind_speed);
+        mapSelector(document.getElementById("selectMapSource").value);
     });
+
+    
 }
 
 function mapSelector(mapNameFromSelector) //for showing map by selecting
