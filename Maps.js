@@ -2,6 +2,36 @@
 var cordsWGS84 = { 'lat': 62.241642, 'lng': 25.759134 }; //google format when lat is first
 var zoomlevel = 13;
 
+var markerHeader = "";
+var contentString = '<div id="content">' +
+    '<div id="siteNotice">' +
+    '</div>' +
+    '<h1 id="firstHeading" class="firstHeading">Uluru</h1>' +
+    '<div id="bodyContent">' +
+    '<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large ' +
+    'sandstone rock formation in the southern part of the ' +
+    'Northern Territory, central Australia. It lies 335&#160;km (208&#160;mi) ' +
+    'south west of the nearest large town, Alice Springs; 450&#160;km ' +
+    '(280&#160;mi) by road. Kata Tjuta and Uluru are the two major ' +
+    'features of the Uluru - Kata Tjuta National Park. Uluru is ' +
+    'sacred to the Pitjantjatjara and Yankunytjatjara, the ' +
+    'Aboriginal people of the area. It has many springs, waterholes, ' +
+    'rock caves and ancient paintings. Uluru is listed as a World ' +
+    'Heritage Site.</p>' +
+    '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">' +
+    'https://en.wikipedia.org/w/index.php?title=Uluru</a> ' +
+    '(last visited June 22, 2009).</p>' +
+    '</div>' +
+    '</div>';
+var markerFooter = "";
+
+function setMarkerOptions(header, body, footer)
+{
+    this.markerHeader = header;
+    this.contentString = body;
+    this.footer = footer;
+}
+
 //methods
 window.load = function ()
 {
@@ -40,6 +70,7 @@ function showGMap()
             zoom: zoomlevel,
             center: center
         });
+
     var marker = new google.maps.Marker({ position: center, map: map });
 }
 
@@ -56,39 +87,6 @@ function setCordsWGS84(lat, lng) //cords handling
 {
     this.cordsWGS84.lat = lat;
     this.cordsWGS84.lng = lng;
-}
-
-function locationSearch() //find coords, set coords, reshow map
-{    
-    var address = document.getElementById('city').value; //grabing text field from GUI
-
-    //usage of google engine
-    var geocoder = new google.maps.Geocoder();
-
-    geocoder.geocode({ 'address': address }, function (results, status)
-    {
-        if (status == google.maps.GeocoderStatus.OK)
-        {
-            var Lat = results[0].geometry.location.lat(); //gathering geo
-            var Lng = results[0].geometry.location.lng();            
-            setCordsWGS84(Lat, Lng); //saves geo for this document
-        }
-        else
-        {
-            alert("Something got wrong: " + status + ", map is not changed!"); //TODO better!
-        }
-
-        //usage of some other engine - unimplemented yet
-
-        try //apply result
-        {
-            mapSelector(document.getElementById("selectMapSource").value); //prefere already selected map source
-        }
-        catch(exception)
-        {
-            mapSelector(); //use default way in function mapSelector
-        }        
-    });
 }
 
 function mapSelector(mapNameFromSelector) //for showing map by selecting
@@ -108,4 +106,33 @@ function mapSelector(mapNameFromSelector) //for showing map by selecting
             showSMap();            
             break;
     }    
+}
+
+function locationSearch() //find coords, set coords, reshow map
+{
+    var address = document.getElementById('city').value; //grabing text field from GUI
+
+    //usage of google engine
+    var geocoder = new google.maps.Geocoder();
+
+    geocoder.geocode({ 'address': address }, function (results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+            var Lat = results[0].geometry.location.lat(); //gathering geo
+            var Lng = results[0].geometry.location.lng();
+            setCordsWGS84(Lat, Lng); //saves geo for this document
+        }
+        else {
+            alert("Something got wrong: " + status + ", map is not changed!"); //TODO better!
+        }
+
+        //usage of some other engine - unimplemented yet
+
+        try //apply result to map
+        {
+            mapSelector(document.getElementById("selectMapSource").value); //prefere already selected map source
+        }
+        catch (exception) {
+            mapSelector(); //use default way in function mapSelector
+        }
+    });
 }
