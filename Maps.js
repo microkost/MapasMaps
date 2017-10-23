@@ -1,7 +1,6 @@
-﻿//global variable with active position
+﻿//global variables, do not change, use setters + getters
 var cordsWGS84 = { 'lat': 62.241642, 'lng': 25.759134 }; //google format when lat is first
 var zoomlevel = 13;
-
 var markerHeader = "";
 var contentString = '<div id="content">' +
     '<div id="siteNotice">' +
@@ -25,10 +24,21 @@ var contentString = '<div id="content">' +
     '</div>';
 var markerFooter = "";
 
+//regular code start:
 function setMarkerOptions(header, body, footer) {
     this.markerHeader = header;
     this.contentString = body;
     this.footer = footer;
+}
+
+function flushMarkerOptions() {
+    this.markerHeader = "";
+    this.contentString = "";
+    this.footer = "";
+}
+
+function getMarkerOptions() {
+    return [this.markerHeader, this.contentString, this.footer];
 }
 
 //methods
@@ -49,8 +59,21 @@ function showSMap() {
     m.addLayer(layer);
     layer.enable();
 
-    var options = {};
-    var marker = new SMap.Marker(center, "myMarker", options);
+    var meteodata = getMarkerOptions();
+    if (meteodata == null)
+    {
+        var options = {};
+        var marker = new SMap.Marker(center, "myMarker", options);
+    }
+    else
+    {
+        var c = new SMap.Card(); //smartcard
+        c.getHeader().innerHTML = meteodata[0];
+        c.getFooter().innerHTML = meteodata[1];
+        c.getBody().innerHTML = meteodata[2];
+        var marker = new SMap.Marker(m.getCenter());
+        marker.decorate(SMap.Marker.Feature.Card, c);
+    }
     layer.addMarker(marker);
 
     var sync = new SMap.Control.Sync({ bottomSpace: 30 });
@@ -132,8 +155,7 @@ function locationSearch() //find coords, set coords, reshow map
     });
 }
 
-function getWeatherData()
-{
+function getWeatherData() {
     //$("#weatherData").append("ewrwr");
     var apiKey = "6239cee266b1f3dab20248a67da1f994";
 
@@ -144,7 +166,7 @@ function getWeatherData()
     var country_name;
     var weather_description;
 
-    $.getJSON("http://api.openweathermap.org/data/2.5/weather?lat=35&lon=139&appid="+apiKey,function(data){
+    $.getJSON("http://api.openweathermap.org/data/2.5/weather?lat=35&lon=139&appid=" + apiKey, function (data) {
         city_name = data["name"];
         country_name = data["sys"]["country"];
         weather_description = data["weather"][0]["description"];
@@ -154,7 +176,7 @@ function getWeatherData()
 
         $("#weatherData").append(weather_description);
     });
-    
+
     // $.ajax({       
     //     type: 'GET',
     //     dataType: 'json',
@@ -173,8 +195,7 @@ function getWeatherData()
 
 function mapSelector(mapNameFromSelector) //for showing map by selecting
 {
-    switch (mapNameFromSelector)
-    {
+    switch (mapNameFromSelector) {
         case "Smap":
             //alert("Seznam");
             showSMap();
@@ -185,7 +206,7 @@ function mapSelector(mapNameFromSelector) //for showing map by selecting
             break;
         default:
             //alert("Default option");
-            showSMap();            
+            showSMap();
             break;
-    }    
+    }
 }
