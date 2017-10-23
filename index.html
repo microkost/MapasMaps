@@ -4,11 +4,10 @@
     <link rel="stylesheet" href="stylesheet.css" media="all" type="text/css" />        
     <script type="text/javascript" src="https://api.mapy.cz/loader.js"></script>    
     <script type="text/javascript">Loader.load();</script>
-    <script src="maps.js"></script>
+    <script type="text/javascript" src="maps.js"></script>
     <title>Mapas Maps</title>
 </head>
 <body onload="mapSelector();">
-    
 
     <nav id="menu">
         <select id="selectMapSource" onload="mapSelector();" onchange="mapSelector(this.value);" onmousedown="this.value='';">
@@ -20,11 +19,14 @@
                  similar to http://ondras.zarovi.cz/slides/mapyapi-fimuni/examples/podklady/ 
              -->
         </select>
-    </nav>
+        <input type="text" id="city" value="Jyväskylä">
+        <input type="button" value="Find" onclick="locationSearch();"/>
+    </nav>        
 
     <div id="mapView" style="width:100%; height:100%;"></div>
 
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbrC1gcahZ3ugGtxRwgHyU4FeTmlGPJCg&callback=showGMapa"></script>
 
+    
 </body>
 </html>

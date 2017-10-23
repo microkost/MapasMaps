@@ -10,7 +10,7 @@ window.load = function ()
 };
 
 function showSMap()
-{   
+{
     var cords = getCordsWGS84(true); //Different order lng and lat than Google!!!
     var center = SMap.Coords.fromWGS84(cords[0], cords[1]);
 
@@ -58,6 +58,46 @@ function setCordsWGS84(lat, lng) //cords handling
     this.cordsWGS84.lng = lng;
 }
 
+//
+function locationSearch()
+{
+    //found coords, setcoords, reshow map
+
+    //google    
+    var address = document.getElementById('city').value; //document.getElementById('address').value;
+
+
+    geocoder.geocode({ 'address': address }, function (results, status)
+    {
+        if (status === 'OK')
+        {
+            resultsMap.setCenter(results[0].geometry.location);
+            var marker = new google.maps.Marker(
+                {
+                    map: resultsMap,
+                    position: results[0].geometry.location
+                });
+        }
+        else
+        {
+            alert('Geocode was not successful for the following reason: ' + status);
+            //leave original coords
+        }
+    */
+
+    //tmp
+    var citystring =     
+
+    
+
+    alert("on " + citystring);
+
+    /*
+    alert("Sorry, you need to enter a positive integer value, try again");
+    document.getElementById('error').innerHTML = "Sorry, you need to enter a positive integer value, try again";
+    */
+}
+
 function mapSelector(mapNameFromSelector) //for showing map by selecting
 {
     switch (mapNameFromSelector)
@@ -76,4 +116,3 @@ function mapSelector(mapNameFromSelector) //for showing map by selecting
             break;
     }    
 }
-
