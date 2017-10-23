@@ -1,8 +1,10 @@
 <!doctype html>
 <html>
 <head>
+    <meta charset="utf-8">
     <link rel="stylesheet" href="stylesheet.css" media="all" type="text/css" />        
     <script type="text/javascript" src="https://api.mapy.cz/loader.js"></script>    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script type="text/javascript">Loader.load();</script>
     <script type="text/javascript" src="maps.js"></script>
     <title>Mapas Maps</title>
@@ -19,8 +21,11 @@
                  similar to http://ondras.zarovi.cz/slides/mapyapi-fimuni/examples/podklady/ 
              -->
         </select>
-        <input type="text" id="city" value="Jyväskylä">
+        <input type="text" id="city" value="JyvÃ¤skylÃ¤">
         <input type="button" value="Find" onclick="locationSearch();"/>
+        <input type="button" id="showWeather" value="get data" onclick="getWeatherData();"/>
+
+        <div id="weatherData"></div>
     </nav>        
 
     <div id="mapView" style="width:100%; height:100%;"></div>

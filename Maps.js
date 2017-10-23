@@ -1,4 +1,6 @@
-﻿//global variable with active position
+﻿
+
+//global variable with active position
 var cordsWGS84 = { 'lat': 62.241642, 'lng': 25.759134 }; //google format when lat is first
 var zoomlevel = 13;
 
@@ -66,7 +68,7 @@ function locationSearch()
     //google    
     var address = document.getElementById('city').value; //document.getElementById('address').value;
 
-
+    /*
     geocoder.geocode({ 'address': address }, function (results, status)
     {
         if (status === 'OK')
@@ -98,6 +100,47 @@ function locationSearch()
     */
 }
 
+function getWeatherData()
+{
+
+    //$("#weatherData").append("ewrwr");
+    var apiKey = "6239cee266b1f3dab20248a67da1f994";
+
+    var city_name;
+    var temp;
+    var pressure;
+    var wind_speed;
+    var country_name;
+    var weather_description;
+
+    $.getJSON("http://api.openweathermap.org/data/2.5/weather?lat=35&lon=139&appid="+apiKey,function(data){
+        city_name = data["name"];
+        country_name = data["sys"]["country"];
+        weather_description = data["weather"][0]["description"];
+        temp = data["main"]["temp"];
+        pressure = data["main"]["pressure"];
+        wind_speed = data["wind"]["speed"];
+
+        $("#weatherData").append(weather_description);
+    });
+
+    
+    // $.ajax({       
+    //     type: 'GET',
+    //     dataType: 'json',
+    //     data: {},
+    //     url: "http://samples.openweathermap.org/data/2.5/weather?lat=35&lon=139&appid=b1b15e88fa797225412429c1c50c122a1&callback=test",
+    //     error: function (jqXHR, textStatus, errorThrown) {
+    //         console.log(jqXHR)
+    //         alert("error to load data");
+    //     },
+    //     success: function (data, textStatus, jqXHR) {
+    //         alert("success");       
+    //     }
+    // });
+
+}
+
 function mapSelector(mapNameFromSelector) //for showing map by selecting
 {
     switch (mapNameFromSelector)
@@ -116,3 +159,5 @@ function mapSelector(mapNameFromSelector) //for showing map by selecting
             break;
     }    
 }
+
+
