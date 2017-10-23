@@ -53,13 +53,14 @@ function showSMap() {
     else
     {
         var c = new SMap.Card(); //smartcard
-        c.getHeader().innerHTML = meteodata[0];
-        c.getFooter().innerHTML = meteodata[1];
-        c.getBody().innerHTML = meteodata[2];
+        //header + footer unused
+        c.getBody().innerHTML = meteodata;
         var marker = new SMap.Marker(m.getCenter());
         marker.decorate(SMap.Marker.Feature.Card, c);
     }
     layer.addMarker(marker);
+
+    //missing auto onclick to ready marker
 
     var sync = new SMap.Control.Sync({ bottomSpace: 30 });
     m.addControl(sync);
@@ -75,7 +76,16 @@ function showGMap() {
             center: center
         });
 
+    var meteodata = getMarkerOptions();
     var marker = new google.maps.Marker({ position: center, map: map });
+    if (meteodata != null)
+    {
+        //title unused
+        var infowindow = new google.maps.InfoWindow({ content: meteodata });        
+        marker.addListener('click', function () {infowindow.open(map, marker); });
+    }
+   
+    
 }
 
 function getCordsWGS84(lngFirst) //central cords returner
