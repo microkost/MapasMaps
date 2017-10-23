@@ -58,44 +58,37 @@ function setCordsWGS84(lat, lng) //cords handling
     this.cordsWGS84.lng = lng;
 }
 
-//
-function locationSearch()
-{
-    //found coords, setcoords, reshow map
+function locationSearch() //find coords, set coords, reshow map
+{    
+    var address = document.getElementById('city').value; //grabing text field from GUI
 
-    //google    
-    var address = document.getElementById('city').value; //document.getElementById('address').value;
-
+    //usage of google engine
+    var geocoder = new google.maps.Geocoder();
 
     geocoder.geocode({ 'address': address }, function (results, status)
     {
-        if (status === 'OK')
+        if (status == google.maps.GeocoderStatus.OK)
         {
-            resultsMap.setCenter(results[0].geometry.location);
-            var marker = new google.maps.Marker(
-                {
-                    map: resultsMap,
-                    position: results[0].geometry.location
-                });
+            var Lat = results[0].geometry.location.lat(); //gathering geo
+            var Lng = results[0].geometry.location.lng();            
+            setCordsWGS84(Lat, Lng); //saves geo for this document
         }
         else
         {
-            alert('Geocode was not successful for the following reason: ' + status);
-            //leave original coords
+            alert("Something got wrong: " + status + ", map is not changed!"); //TODO better!
         }
-    */
 
-    //tmp
-    var citystring =     
+        //usage of some other engine - unimplemented yet
 
-    
-
-    alert("on " + citystring);
-
-    /*
-    alert("Sorry, you need to enter a positive integer value, try again");
-    document.getElementById('error').innerHTML = "Sorry, you need to enter a positive integer value, try again";
-    */
+        try //apply result
+        {
+            mapSelector(document.getElementById("selectMapSource").value); //prefere already selected map source
+        }
+        catch(exception)
+        {
+            mapSelector(); //use default way in function mapSelector
+        }        
+    });
 }
 
 function mapSelector(mapNameFromSelector) //for showing map by selecting
