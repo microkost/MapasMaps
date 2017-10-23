@@ -1,7 +1,6 @@
-﻿//global variable with active position
+﻿//global variables, do not change, use setters + getters
 var cordsWGS84 = { 'lat': 62.241642, 'lng': 25.759134 }; //google format when lat is first
 var zoomlevel = 13;
-
 var markerHeader = "";
 var contentString = '<div id="content">' +
     '<div id="siteNotice">' +
@@ -25,10 +24,21 @@ var contentString = '<div id="content">' +
     '</div>';
 var markerFooter = "";
 
+//regular code start:
 function setMarkerOptions(header, body, footer) {
     this.markerHeader = header;
     this.contentString = body;
     this.footer = footer;
+}
+
+function flushMarkerOptions() {
+    this.markerHeader = "";
+    this.contentString = "";
+    this.footer = "";
+}
+
+function getMarkerOptions() {
+    return [this.markerHeader, this.contentString, this.footer];
 }
 
 //methods
@@ -49,8 +59,21 @@ function showSMap() {
     m.addLayer(layer);
     layer.enable();
 
-    var options = {};
-    var marker = new SMap.Marker(center, "myMarker", options);
+    var meteodata = getMarkerOptions();
+    if (meteodata == null)
+    {
+        var options = {};
+        var marker = new SMap.Marker(center, "myMarker", options);
+    }
+    else
+    {
+        var c = new SMap.Card(); //smartcard
+        c.getHeader().innerHTML = meteodata[0];
+        c.getFooter().innerHTML = meteodata[1];
+        c.getBody().innerHTML = meteodata[2];
+        var marker = new SMap.Marker(m.getCenter());
+        marker.decorate(SMap.Marker.Feature.Card, c);
+    }
     layer.addMarker(marker);
 
     var sync = new SMap.Control.Sync({ bottomSpace: 30 });
@@ -115,12 +138,18 @@ function locationSearch() //find coords, set coords, reshow map
             var Lat = results[0].geometry.location.lat(); //gathering geo
             var Lng = results[0].geometry.location.lng();
             setCordsWGS84(Lat, Lng); //saves geo for this document
+
+            // get weather for coords
+            getWeatherData(Lat, Lng);
         }
         else {
             alert("Something got wrong: " + status + ", map is not changed!"); //TODO better!
         }
 
         //usage of some other engine - unimplemented yet
+
+        
+
 
         try //apply result to map
         {
@@ -132,8 +161,8 @@ function locationSearch() //find coords, set coords, reshow map
     });
 }
 
-function getWeatherData()
-{
+function getWeatherData(lat, lng)
+{   
     //$("#weatherData").append("ewrwr");
     var apiKey = "6239cee266b1f3dab20248a67da1f994";
 
@@ -144,7 +173,8 @@ function getWeatherData()
     var country_name;
     var weather_description;
 
-    $.getJSON("http://api.openweathermap.org/data/2.5/weather?lat=35&lon=139&appid="+apiKey,function(data){
+    $.getJSON("http://api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+lng+"&appid="+apiKey+"&units=metric",function(data){
+
         city_name = data["name"];
         country_name = data["sys"]["country"];
         weather_description = data["weather"][0]["description"];
@@ -152,29 +182,19 @@ function getWeatherData()
         pressure = data["main"]["pressure"];
         wind_speed = data["wind"]["speed"];
 
-        $("#weatherData").append(weather_description);
-    });
-    
-    // $.ajax({       
-    //     type: 'GET',
-    //     dataType: 'json',
-    //     data: {},
-    //     url: "http://samples.openweathermap.org/data/2.5/weather?lat=35&lon=139&appid=b1b15e88fa797225412429c1c50c122a1&callback=test",
-    //     error: function (jqXHR, textStatus, errorThrown) {
-    //         console.log(jqXHR)
-    //         alert("error to load data");
-    //     },
-    //     success: function (data, textStatus, jqXHR) {
-    //         alert("success");       
-    //     }
-    // });
+        $("#temperature").empty();
+        $("#weatherDescription").empty();
+        $("#windSpeed").empty();
 
+        $("#temperature").append("Temperature: " + temp);
+        $("#weatherDescription").append("Description: " + weather_description);
+        $("#windSpeed").append("Wind speed:" + wind_speed);
+    });
 }
 
 function mapSelector(mapNameFromSelector) //for showing map by selecting
 {
-    switch (mapNameFromSelector)
-    {
+    switch (mapNameFromSelector) {
         case "Smap":
             //alert("Seznam");
             showSMap();
@@ -185,7 +205,7 @@ function mapSelector(mapNameFromSelector) //for showing map by selecting
             break;
         default:
             //alert("Default option");
-            showSMap();            
+            showSMap();
             break;
-    }    
+    }
 }
