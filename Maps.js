@@ -1,6 +1,4 @@
-﻿
-
-//global variable with active position
+﻿//global variable with active position
 var cordsWGS84 = { 'lat': 62.241642, 'lng': 25.759134 }; //google format when lat is first
 var zoomlevel = 13;
 
@@ -27,22 +25,19 @@ var contentString = '<div id="content">' +
     '</div>';
 var markerFooter = "";
 
-function setMarkerOptions(header, body, footer)
-{
+function setMarkerOptions(header, body, footer) {
     this.markerHeader = header;
     this.contentString = body;
     this.footer = footer;
 }
 
 //methods
-window.load = function ()
-{
-  Loader.async = true;
-  Loader.load(null, null, createMap);    
+window.load = function () {
+    Loader.async = true;
+    Loader.load(null, null, createMap);
 };
 
-function showSMap()
-{
+function showSMap() {
     var cords = getCordsWGS84(true); //Different order lng and lat than Google!!!
     var center = SMap.Coords.fromWGS84(cords[0], cords[1]);
 
@@ -62,10 +57,9 @@ function showSMap()
     m.addControl(sync);
 }
 
-function showGMap()
-{
-    var cords = getCordsWGS84(false);    
-    var center = { lat: cords[0], lng: cords[1] };    
+function showGMap() {
+    var cords = getCordsWGS84(false);
+    var center = { lat: cords[0], lng: cords[1] };
 
     var map = new google.maps.Map(document.getElementById('mapView'),
         {
@@ -93,8 +87,7 @@ function setCordsWGS84(lat, lng) //cords handling
 
 function mapSelector(mapNameFromSelector) //for showing map by selecting
 {
-    switch (mapNameFromSelector)
-    {
+    switch (mapNameFromSelector) {
         case "Smap":
             //alert("Seznam");
             showSMap();
@@ -105,31 +98,20 @@ function mapSelector(mapNameFromSelector) //for showing map by selecting
             break;
         default:
             //alert("Default option");
-            showSMap();            
+            showSMap();
             break;
-    }    
+    }
 }
 
 function locationSearch() //find coords, set coords, reshow map
 {
     var address = document.getElementById('city').value; //grabing text field from GUI
 
-<<<<<<< HEAD
-    /*
-=======
     //usage of google engine
     var geocoder = new google.maps.Geocoder();
 
-<<<<<<< HEAD
     geocoder.geocode({ 'address': address }, function (results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
-=======
->>>>>>> 060ae13d020f979a4323ae515aff905cd6a772ec
-    geocoder.geocode({ 'address': address }, function (results, status)
-    {
-        if (status == google.maps.GeocoderStatus.OK)
-        {
->>>>>>> 0334dd676719c216a31ccfaf63b7079c9ce6b9c7
             var Lat = results[0].geometry.location.lat(); //gathering geo
             var Lng = results[0].geometry.location.lng();
             setCordsWGS84(Lat, Lng); //saves geo for this document
@@ -149,12 +131,9 @@ function locationSearch() //find coords, set coords, reshow map
         }
     });
 }
-<<<<<<< HEAD
-=======
 
 function getWeatherData()
 {
-
     //$("#weatherData").append("ewrwr");
     var apiKey = "6239cee266b1f3dab20248a67da1f994";
 
@@ -175,7 +154,6 @@ function getWeatherData()
 
         $("#weatherData").append(weather_description);
     });
-
     
     // $.ajax({       
     //     type: 'GET',
@@ -211,6 +189,3 @@ function mapSelector(mapNameFromSelector) //for showing map by selecting
             break;
     }    
 }
-
-
->>>>>>> 0334dd676719c216a31ccfaf63b7079c9ce6b9c7
