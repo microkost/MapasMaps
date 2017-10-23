@@ -1,29 +1,25 @@
 ﻿//global variables, do not change, use setters + getters
 var cordsWGS84 = { 'lat': 62.241642, 'lng': 25.759134 }; //google format when lat is first
 var zoomlevel = 13;
-var markerHeader = "";
 var contentString = "";
-var markerFooter = "";
 
 //regular code start:
-function setMarkerOptions(city, temperature, wind_speed) {
+function setMarkerOptions(city, temperature, wind_speed)
+{
     this.contentString = 
     '<div>' +
     '<h1>'+city+'</h1>' +
     '<p><b>Temperature: </b>'+temperature+'</p>'+
     '<p><b>Wind speed: </b>'+wind_speed+'</p>'+
     '</div>';
-
 }
 
-function flushMarkerOptions() {
-    this.markerHeader = "";
+function flushMarkerOptions() {    
     this.contentString = "";
-    this.footer = "";
 }
 
-function getMarkerOptions() {
-    return [this.markerHeader, this.contentString, this.footer];
+function getMarkerOptions(){
+    return this.contentString;
 }
 
 //methods
