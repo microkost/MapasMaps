@@ -32,6 +32,9 @@ bld/
 
 #unnesesary stuff
 .vscode/
+.vscode
+vscode
+vscode/
 .gitattributes
 .gitignore
 .vscode/launch.json
