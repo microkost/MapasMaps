@@ -215,9 +215,11 @@ function locationSearch() //find coords, set coords, reshow map
 }
 
 function getLocation() {
-    if (navigator.geolocation) {
+    if (navigator.geolocation)
+    {
         navigator.geolocation.getCurrentPosition(setPosition);
-    } else {
+    } else
+    {
          Console.log("Geolocation is not supported by this browser.");
     }
 }
