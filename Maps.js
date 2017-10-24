@@ -163,7 +163,7 @@ function showHMap() //Here maps https://developer.here.com/documentation/maps/
 
     var group = new H.map.Group();
     map.addObject(group);    
-    group.addEventListener('tap', function (evt)
+    group.addEventListener('tap', function (evt) //tapable = clickable marker
     {
         var bubble = new H.ui.InfoBubble(evt.target.getPosition(), { content: evt.target.getData() });
         ui.addBubble(bubble);        
@@ -172,9 +172,9 @@ function showHMap() //Here maps https://developer.here.com/documentation/maps/
     var marker = new H.map.Marker(center);
     marker.setData(meteodata);
     group.addObject(marker);
-    //map.screenToGeo(evt.currentPointer.viewportX, evt.currentPointer.viewportY);
-    //map.screenToGeo(center);
 
+    var bubble = new H.ui.InfoBubble(center, { content: meteodata }); //autoclick to marker
+    ui.addBubble(bubble);
 }
 
 function getCordsWGS84(lngFirst) //central cords returner

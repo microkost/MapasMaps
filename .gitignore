@@ -18,7 +18,6 @@ MapasMaps.csproj
 MapasMaps.csproj.user
 
 # Build results
-.vscode
 [Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/
@@ -30,6 +29,11 @@ bld/
 [Oo]bj/
 [Ll]og/
 [Pp]roperties/
+
+#unnesesary stuff
+.vscode/
+.gitattributes
+.gitignore
 
 # Visual Studio 2015 cache/options directory
 .vs/

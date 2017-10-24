@@ -1,6 +1,0 @@
-fetch pozice od uživatele
-
-uživatelsky ošetøit zoom hodnotu pøi pøepnutí mapového podkladu pøi odzoomování
-
-Kontaktovat autora http://ondras.zarovi.cz/slides/mapyapi-fimuni/examples/podklady/
-ondras@zarovi.cz
