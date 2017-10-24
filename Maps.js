@@ -1,16 +1,34 @@
-﻿//global variables, do not change, use setters + getters
+﻿//global variables, do not change, use setters and getters
 var cordsWGS84 = { 'lat': 62.241642, 'lng': 25.759134 }; //google format when lat is first
 var zoomlevel = 13;
 var contentString = "";
 
 //regular code start:
-function setMarkerOptions(city, temperature, wind_speed)
+function refreshView(refreshAlsoWeather) //method for refreshing visual data after some change
+{   
+    if (refreshAlsoWeather)
+    {
+        var cords = getCordsWGS84(false);    
+        getWeatherData(cords[0], cords[1]);
+    }
+
+    try //apply result to map
+    {
+        mapSelector(document.getElementById("selectMapSource").value); //prefere already selected map source
+    }
+    catch (exception) {
+        mapSelector(); //use default way in function mapSelector
+    }
+}
+
+function setMarkerOptions(city, temperature, weather_description, wind_speed) //string formating function
 {
     this.contentString = 
     '<div>' +
-    '<h1>'+city+'</h1>' +
-    '<p><b>Temperature: </b>'+temperature+'</p>'+
-    '<p><b>Wind speed: </b>'+wind_speed+'</p>'+
+    '<h1>' + city + '</h1>' +
+    '<p><strong>Actual weather: </strong>' + weather_description +
+    '<p><b>Temperature: </b>'+temperature+' °C</p>'+
+    '<p><b>Wind speed: </b>'+wind_speed+' m/s</p>'+
     '</div>';
 }
 
@@ -22,8 +40,8 @@ function getMarkerOptions(){
     return this.contentString;
 }
 
-//methods
-window.load = function () {
+window.load = function () //methods for Smap API
+{
     Loader.async = true;
     Loader.load(null, null, createMap);
 };
@@ -40,24 +58,28 @@ function showSMap() {
     m.addLayer(layer);
     layer.enable();
 
-    var meteodata = getMarkerOptions();    
-
-    if (meteodata.length === 0)
+    var meteodata = getMarkerOptions(); //geting meteodata
+    if (meteodata.length === 0) //do not make smart marker in case of no weather data
     {
         var options = {};
         var marker = new SMap.Marker(center, "myMarker", options);
     }
-    else
+    else //make a smartcard instead of regular marker
     {
-        var c = new SMap.Card(); //smartcard
-        //header + footer unused
+        var c = new SMap.Card();
         c.getBody().innerHTML = meteodata;
-        var marker = new SMap.Marker(m.getCenter());
-        marker.decorate(SMap.Marker.Feature.Card, c);
-    }
-    layer.addMarker(marker);
+        var marker = new SMap.Marker(m.getCenter());        
+        marker.decorate(SMap.Marker.Feature.Card, c);               
 
-    //missing auto onclick to ready marker
+        //missing auto onclick to ready marker
+
+
+        /* GOOGLE WAY
+        var infowindow = new google.maps.InfoWindow({ content: meteodata });
+        marker.addListener('click', function () { infowindow.open(map, marker); });
+        */
+    }    
+    layer.addMarker(marker);        
 
     var sync = new SMap.Control.Sync({ bottomSpace: 30 });
     m.addControl(sync);
@@ -84,9 +106,7 @@ function showGMap() {
     }
     */
     var infowindow = new google.maps.InfoWindow({ content: meteodata });
-    marker.addListener('click', function () { infowindow.open(map, marker); });
-   
-    
+    marker.addListener('click', function () { infowindow.open(map, marker); });      
 }
 
 function getCordsWGS84(lngFirst) //central cords returner
@@ -142,26 +162,15 @@ function locationSearch() //find coords, set coords, reshow map
             alert("Something got wrong: " + status + ", map is not changed!"); //TODO better!
         }
 
-        //usage of some other engine - unimplemented yet
+        //usage of some other searching engine - unimplemented yet
 
-        
-
-
-        try //apply result to map
-        {
-            mapSelector(document.getElementById("selectMapSource").value); //prefere already selected map source
-        }
-        catch (exception) {
-            mapSelector(); //use default way in function mapSelector
-        }
+        refreshView(false);
     });
 }
 
-function getWeatherData(lat, lng)
+function getWeatherData(lat, lng) //asking meteo service
 {   
-    //$("#weatherData").append("ewrwr");
     var apiKey = "6239cee266b1f3dab20248a67da1f994";
-
     var city_name;
     var temp;
     var pressure;
@@ -177,19 +186,9 @@ function getWeatherData(lat, lng)
         pressure = data["main"]["pressure"];
         wind_speed = data["wind"]["speed"];
 
-        $("#temperature").empty();
-        $("#weatherDescription").empty();
-        $("#windSpeed").empty();
-
-        $("#temperature").append("Temperature: " + temp);
-        $("#weatherDescription").append("Description: " + weather_description);
-        $("#windSpeed").append("Wind speed:" + wind_speed);
-
-        setMarkerOptions(city_name, temp, wind_speed);
-        mapSelector(document.getElementById("selectMapSource").value);
-    });
-
-    
+        setMarkerOptions(city_name, temp, weather_description, wind_speed); //set it to marker builder
+        refreshView(false);
+    });    
 }
 
 function mapSelector(mapNameFromSelector) //for showing map by selecting
