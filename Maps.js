@@ -136,7 +136,6 @@ function showBMap()
 
     //Assign the infobox to a map instance.
     infobox.setMap(map);
-<<<<<<< HEAD
 }
 
 function showHMap() //Here maps https://developer.here.com/documentation/maps/
@@ -155,8 +154,6 @@ function showHMap() //Here maps https://developer.here.com/documentation/maps/
             zoom: zoomlevel,
             center: center
         });   
-=======
->>>>>>> d5b38e72dca92ed2a7949c4729ce85b3320b2aa5
 }
 
 function getCordsWGS84(lngFirst) //central cords returner
@@ -174,34 +171,6 @@ function setCordsWGS84(lat, lng) //cords handling
     this.cordsWGS84.lng = lng;
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-function mapSelector(mapNameFromSelector) //for showing map by selecting
-{
-    switch (mapNameFromSelector) {
-        case "Smap":
-            //alert("Seznam");
-            showSMap();
-            break;
-        case "Gmap":
-            //alert("Google");
-            showGMap();
-            break;
-        case "Hmap":
-            //alert("Here");
-            showHMap();
-            break;
-        default:
-            //alert("Default option");
-            showSMap();
-            break;
-    }
-}
-
-=======
->>>>>>> d5b38e72dca92ed2a7949c4729ce85b3320b2aa5
-=======
->>>>>>> d5b38e72dca92ed2a7949c4729ce85b3320b2aa5
 function locationSearch() //find coords, set coords, reshow map
 {
     var address = document.getElementById('city').value; //grabing text field from GUI
@@ -246,14 +215,6 @@ function getWeatherData(lat, lng) //asking meteo service
 
         setMarkerOptions(city_name, temp, weather_description, wind_speed); //set it to marker builder
         refreshView(false);
-<<<<<<< HEAD
-<<<<<<< HEAD
-    });    
-=======
-    });
->>>>>>> d5b38e72dca92ed2a7949c4729ce85b3320b2aa5
-}
-=======
     });
 }
 
@@ -268,6 +229,10 @@ function mapSelector(mapNameFromSelector) //for showing map by selecting
             //alert("Google");
             showGMap();
             break;
+        case "Hmap":
+            //alert("Here");
+            showHMap();
+            break;
         case "Bmap":
             //alert("Bing");
             showBMap();
@@ -278,4 +243,3 @@ function mapSelector(mapNameFromSelector) //for showing map by selecting
             break;
     }
 }
->>>>>>> d5b38e72dca92ed2a7949c4729ce85b3320b2aa5
