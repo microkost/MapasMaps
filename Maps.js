@@ -214,6 +214,19 @@ function locationSearch() //find coords, set coords, reshow map
     });
 }
 
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(setPosition);
+    } else {
+         Console.log("Geolocation is not supported by this browser.");
+    }
+}
+
+function setPosition(position) {
+    setCordsWGS84(position.coords.latitude, position.coords.longitude);
+    getWeatherData(position.coords.latitude, position.coords.longitude);
+}
+
 function getWeatherData(lat, lng) //asking meteo service
 {
     var apiKey = "6239cee266b1f3dab20248a67da1f994";

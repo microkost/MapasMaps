@@ -1,13 +1,17 @@
 ﻿<!doctype html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+        crossorigin="anonymous">
     <link rel="stylesheet" href="stylesheet.css" media="all" type="text/css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+        crossorigin="anonymous"></script>
 
     <script type="text/javascript" src="https://js.cit.api.here.com/v3/3.0/mapsjs-core.js"></script>
     <script type="text/javascript" src="https://js.cit.api.here.com/v3/3.0/mapsjs-service.js"></script>
@@ -20,24 +24,30 @@
     <script type="text/javascript" src="maps.js"></script>
     <title>Mapas Maps</title>
 </head>
+
 <body onload="refreshView(true);">
     <div class="container">
         <div class="row align-items-center headRow">
-            <div class="col-md-4"><h2>Map services demo</h2></div>
-            <div class="col-md-3">
+            <div class="col-md-4">
+                <h2>Map services demo</h2>
+            </div>
+            <div class="col-md-2">
                 <select class="form-control" id="selectMapSource" onchange="mapSelector(this.value);" onmousedown="this.value='';">
                     <option value="Smap">Seznam maps</option>
-                    <option value="Gmap">Google Maps</option>                    
+                    <option value="Gmap">Google Maps</option>
                     <option value="Bmap">Bing maps</option>
                     <option value="Hmap">Here Maps</option>
                     <!-- dont add more when we are not finished with these...  layers of these maps also as options! Turistic, ... OSM, BING, http://www.opencyclemap.org/ similar to http://ondras.zarovi.cz/slides/mapyapi-fimuni/examples/podklady/  -->
                 </select>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <input type="text" class="form-control" placeholder="Enter the place" id="city" value="Jyväskylä Lutakko JAMK">
             </div>
             <div class="col-md-2">
                 <button type="button" id="findBtn" class="btn btn-large btn-block btn-primary" onclick="locationSearch();">Find</button>
+            </div>
+            <div class="col-md-2">
+                <button type="button" id="locationBtn" class="btn btn-large btn-block btn-info" onclick="getLocation();">My location</button>
             </div>
         </div>
     </div>
@@ -49,10 +59,13 @@
     </div>
     <div class="container">
         <div class="row card">
-            <h6 class="card-block text-center">CC 2017 - Jaroslav Seidel & Ivo Kostecký for JAMK - <a href="https://docs.google.com/presentation/d/1g7c4UVqYmjbho4nizk6jSxQ2u2JyN68bHLfk4HwqhIY/edit?usp=sharing" target="_blank">presentation</a>.</h6>
+            <h6 class="card-block text-center">CC 2017 - Jaroslav Seidel & Ivo Kostecký for JAMK -
+                <a href="https://docs.google.com/presentation/d/1g7c4UVqYmjbho4nizk6jSxQ2u2JyN68bHLfk4HwqhIY/edit?usp=sharing"
+                    target="_blank">presentation</a>.</h6>
         </div>
     </div>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbrC1gcahZ3ugGtxRwgHyU4FeTmlGPJCg&callback=showGMap"></script>
     <script type='text/javascript' src='http://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
 </body>
+
 </html>
