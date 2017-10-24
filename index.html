@@ -32,7 +32,8 @@
             <div class="col-md-3">
                 <select class="form-control" id="selectMapSource" onchange="mapSelector(this.value);" onmousedown="this.value='';">
                     <option value="Smap">Seznam maps</option>
-                    <option value="Gmap">Google Maps</option>
+                    <option value="Gmap">Google maps</option>
+                    <option value="Bmap">Bing maps</option>
                     <!-- dont add more when we are not finished with these... 
                                                                              layers of these maps also as options! Turistic, ...
                                                                              OSM, BING, http://www.opencyclemap.org/
@@ -51,22 +52,25 @@
             </div>
 
         </div>
+    </div>
 
+    <div class="container-fluid">
         <div class="row mapRow">
             <div class="col-md-12" id="mapView" style="width:100%; height:100%;"></div>
         </div>
-
-
-        <div class="row card">
-            <h6 class="card-block text-center">Jaroslav Seidel & Ivo Kostecký for JAMK</h6>
-        </div>
-
-
     </div>
 
 
 
+    <div class="container">
+        <div class="row card">
+            <h6 class="card-block text-center">Jaroslav Seidel & Ivo Kostecký for JAMK</h6>
+        </div>
+    </div>
+
+
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbrC1gcahZ3ugGtxRwgHyU4FeTmlGPJCg&callback=showGMap"></script>
+    <script type='text/javascript' src='http://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
 
 </body>
 
