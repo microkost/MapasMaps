@@ -8,8 +8,8 @@ function refreshView(refreshAlsoWeather) //method for refreshing visual data aft
 {   
     if (refreshAlsoWeather)
     {
-        var cords = getCordsWGS84(false);    
-        getWeatherData(cords[0], cords[1]);
+        var cords = getCordsWGS84(false); //get coords in google format
+        getWeatherData(cords[0], cords[1]); //get weather for this coords to global property
     }
 
     try //apply result to map
@@ -21,7 +21,7 @@ function refreshView(refreshAlsoWeather) //method for refreshing visual data aft
     }
 }
 
-function setMarkerOptions(city, temperature, weather_description, wind_speed) //string formating function
+function setMarkerOptions(city, temperature, weather_description, wind_speed) //string formating weather data
 {
     this.contentString = 
     '<div>' +
@@ -30,10 +30,6 @@ function setMarkerOptions(city, temperature, weather_description, wind_speed) //
     '<p><b>Temperature: </b>'+temperature+' °C</p>'+
     '<p><b>Wind speed: </b>'+wind_speed+' m/s</p>'+
     '</div>';
-}
-
-function flushMarkerOptions() {    
-    this.contentString = "";
 }
 
 function getMarkerOptions(){
@@ -46,46 +42,47 @@ window.load = function () //methods for Smap API
     Loader.load(null, null, createMap);
 };
 
-function showSMap() {
-    var cords = getCordsWGS84(true); //Different order lng and lat than Google!!!
+function showSMap() //Seznam mapy api (mapy.cz or api.mapy.cz)
+{    
+    var cords = getCordsWGS84(true); //different order lng and lat than Google!!!
     var center = SMap.Coords.fromWGS84(cords[0], cords[1]);
 
-    var m = new SMap(JAK.gel("mapView"), center, zoomlevel);
-    m.addDefaultLayer(SMap.DEF_BASE).enable();
-    m.addDefaultControls();
+    var mapa = new SMap(JAK.gel("mapView"), center, zoomlevel);
+    mapa.addDefaultLayer(SMap.DEF_BASE).enable();
+    mapa.addDefaultControls();
 
     var layer = new SMap.Layer.Marker();
-    m.addLayer(layer);
+    mapa.addLayer(layer);
     layer.enable();
 
     var meteodata = getMarkerOptions(); //geting meteodata
     if (meteodata.length === 0) //do not make smart marker in case of no weather data
     {
         var options = {};
-        var marker = new SMap.Marker(center, "myMarker", options);
+        var marker = new SMap.Marker(center, "cityMarker", options);
+        layer.addMarker(marker);     
     }
     else //make a smartcard instead of regular marker
-    {
-        var c = new SMap.Card();
-        c.getBody().innerHTML = meteodata;
-        var marker = new SMap.Marker(m.getCenter());        
-        marker.decorate(SMap.Marker.Feature.Card, c);               
+    {        
+        var marker = new SMap.Marker(mapa.getCenter()); //random generated ID of marker      
+        var options = { anchor: { top: -50, bottom: 1 } }; //moves card out of place pointer
+        var card = new SMap.Card("cityMarker", options);
 
-        //missing auto onclick to ready marker
+        card.getBody().innerHTML = meteodata; //placing text information to card
+        marker.decorate(SMap.Marker.Feature.Card, card); //linking marker with card
 
-
-        /* GOOGLE WAY
-        var infowindow = new google.maps.InfoWindow({ content: meteodata });
-        marker.addListener('click', function () { infowindow.open(map, marker); });
-        */
-    }    
-    layer.addMarker(marker);        
+        layer.addMarker(marker); //placing marker to map
+        mapa.addCard(card, marker.getCoords()); //placing open card to map (autoclick)
+    }        
+          
+    //add https://api.mapy.cz/view?page=pointer
 
     var sync = new SMap.Control.Sync({ bottomSpace: 30 });
-    m.addControl(sync);
+    mapa.addControl(sync);    
 }
 
-function showGMap() {
+function showGMap() //google maps https://developers.google.com/maps/documentation/javascript/
+{
     var cords = getCordsWGS84(false);
     var center = { lat: cords[0], lng: cords[1] };
 
@@ -96,17 +93,16 @@ function showGMap() {
         });
 
     var meteodata = getMarkerOptions();
+    //meteodata = ""; //debug
     var marker = new google.maps.Marker({ position: center, map: map });
-    /*
-    if (!meteodata.length === 0) //?working?
+    
+    if (meteodata.length != 0) //if not empty then you can show infowindow
     {
-        //title unused
-        var infowindow = new google.maps.InfoWindow({ content: meteodata });        
-        marker.addListener('click', function () {infowindow.open(map, marker); });
-    }
-    */
-    var infowindow = new google.maps.InfoWindow({ content: meteodata });
-    marker.addListener('click', function () { infowindow.open(map, marker); });      
+        var infowindow = new google.maps.InfoWindow;
+        infowindow.setContent(meteodata);
+        infowindow.open(map, marker);
+        marker.addListener('click', function () { infowindow.open(map, marker); });
+    }    
 }
 
 function getCordsWGS84(lngFirst) //central cords returner
@@ -161,8 +157,6 @@ function locationSearch() //find coords, set coords, reshow map
         else {
             alert("Something got wrong: " + status + ", map is not changed!"); //TODO better!
         }
-
-        //usage of some other searching engine - unimplemented yet
 
         refreshView(false);
     });
