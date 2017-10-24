@@ -122,16 +122,13 @@ function showBMap()
     var map = new Microsoft.Maps.Map('#mapView', {
         credentials: 'Arvn8chsNiRnXdKwD0C4h_BjG_zFoP_lSJnbtBNN-I8pS6NKogwpqMViaWHvtw8r',
         center: center
-    });
+    });    
 
     //Create an infobox that will render in the center of the map.
-    var infobox = new Microsoft.Maps.Infobox(center, {
-        //title: 'Map Center',
-        
+    var infobox = new Microsoft.Maps.Infobox(center, {        
         description: meteodata,
         center: center,
-        maxHeight: 300
-        
+        maxHeight: 300        
     });
 
     //Assign the infobox to a map instance.
@@ -140,20 +137,32 @@ function showBMap()
 
 function showHMap() //Here maps https://developer.here.com/documentation/maps/
 {
-    var platform = new H.service.Platform({ 'app_id': '2eviPbL6VJg3XZop4ZS7', 'app_code': 'b2n2503pETUQ4l55pm0Slg' }); // Initialize the platform object:    
-    var defaultLayers = platform.createDefaultLayers(); // Obtain the default map types from the platform object:
-   
+    var platform = new H.service.Platform({'app_id': '2eviPbL6VJg3XZop4ZS7', 'app_code': 'b2n2503pETUQ4l55pm0Slg', useCIT: true, useHTTPS: true }); // Initialize the platform object:    
+
+    var defaultLayers = platform.createDefaultLayers(); // Obtain the default map types from the platform object:    
+
     var cords = getCordsWGS84(false);
     var center = { lat: cords[0], lng: cords[1] };
 
     // Instantiate (and display) a map object:
-    var map = new H.Map(
-        document.getElementById('mapView'),
-        defaultLayers.normal.map,
+    var map = new H.Map(document.getElementById('mapView'), defaultLayers.terrain.map,
         {
             zoom: zoomlevel,
             center: center
         });   
+
+    //Step 3: make the map interactive
+    // MapEvents enables the event system
+    // Behavior implements default interactions for pan/zoom (also on mobile touch environments)
+    var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
+
+    // Create the default UI components
+    var ui = H.ui.UI.createDefault(map, defaultLayers);
+
+    // Create an info bubble object at a specific geographic location:
+    var meteodata = getMarkerOptions();
+    var bubble = new H.ui.InfoBubble({lng: '25.759134', lat: '62.241642' }, { content: meteodata });    
+    ui.addBubble(bubble); // Add info bubble to the UI:
 }
 
 function getCordsWGS84(lngFirst) //central cords returner
