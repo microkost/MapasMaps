@@ -52,6 +52,8 @@ window.load = function () //methods for Smap API
 
 function showSMap() //Seznam mapy api (mapy.cz or api.mapy.cz)
 {
+    $("#mapView").empty();
+
     var cords = getCordsWGS84(true); //different order lng and lat than Google!!!
     var center = SMap.Coords.fromWGS84(cords[0], cords[1]);
 
@@ -91,6 +93,7 @@ function showSMap() //Seznam mapy api (mapy.cz or api.mapy.cz)
 
 function showGMap() //google maps https://developers.google.com/maps/documentation/javascript/
 {
+    $("#mapView").empty();
     var cords = getCordsWGS84(false);
     var center = { lat: cords[0], lng: cords[1] };
 
@@ -115,6 +118,7 @@ function showGMap() //google maps https://developers.google.com/maps/documentati
 
 function showBMap() 
 {
+    $("#mapView").empty();
     var cords = getCordsWGS84(false);
     var center = new Microsoft.Maps.Location(cords[0], cords[1]);
     var meteodata = getMarkerOptions();
@@ -137,6 +141,7 @@ function showBMap()
 
 function showHMap() //Here maps https://developer.here.com/documentation/maps/
 {
+    $("#mapView").empty();
     var platform = new H.service.Platform({'app_id': '2eviPbL6VJg3XZop4ZS7', 'app_code': 'b2n2503pETUQ4l55pm0Slg', useCIT: true, useHTTPS: true }); // Initialize the platform object:    
 
     var defaultLayers = platform.createDefaultLayers(); // Obtain the default map types from the platform object:    
