@@ -22,47 +22,33 @@
 
 <body onload="refreshView(true);">
 
-    <div class="container appBody">
-        <div class="row align-items-center">
+    <div class="container">
+        <div class="row align-items-center headRow">
 
             <div class="col-md-4">
                 <h2>Map services demo</h2>
             </div>
 
             <div class="col-md-3">
-                <form>
-                    <div class="form-group">
-                        <label for="selectMapSource">Select map source:</label>
-                        <select class="form-control" id="selectMapSource" onchange="mapSelector(this.value);" onmousedown="this.value='';">
-                            <option value="Smap">Seznam maps</option>
-                            <option value="Gmap">Google Maps</option>
-                            <!-- dont add more when we are not finished with these... 
+                <select class="form-control" id="selectMapSource" onchange="mapSelector(this.value);" onmousedown="this.value='';">
+                    <option value="Smap">Seznam maps</option>
+                    <option value="Gmap">Google Maps</option>
+                    <!-- dont add more when we are not finished with these... 
                                                                              layers of these maps also as options! Turistic, ...
                                                                              OSM, BING, http://www.opencyclemap.org/
                                                                              similar to http://ondras.zarovi.cz/slides/mapyapi-fimuni/examples/podklady/  -->
 
-                        </select>
-                    </div>
-                </form>
+                </select>
+
             </div>
 
             <div class="col-md-3">
-                <form>
-                    <div class="form-group">
-                        <label for="city">Write the city name:</label>
-                        <input type="text" class="form-control" placeholder="Enter the place" id="city" value="Jyväskylä Luttako JAMK">
-                    </div>
-
-
-
-                </form>
+                <input type="text" class="form-control" placeholder="Enter the place" id="city" value="Jyväskylä Luttako JAMK">
             </div>
 
             <div class="col-md-2">
-                <button type="button" class="btn btn-primary" onclick="locationSearch();">Find</button>
+                <button type="button" id="findBtn" class="btn btn-large btn-block btn-primary" onclick="locationSearch();">Find</button>
             </div>
-
-
 
         </div>
 

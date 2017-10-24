@@ -3,6 +3,15 @@ var cordsWGS84 = { 'lat': 62.241642, 'lng': 25.759134 }; //google format when la
 var zoomlevel = 13;
 var contentString = "";
 
+
+$(document).ready(function() {
+    $("#city").keyup(function(event) {
+        if (event.keyCode === 13) {
+            $("#findBtn").click();
+        }
+    });
+});
+
 //regular code start:
 function refreshView(refreshAlsoWeather) //method for refreshing visual data after some change
 {   
