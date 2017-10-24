@@ -18,6 +18,7 @@ MapasMaps.csproj
 MapasMaps.csproj.user
 
 # Build results
+.vscode
 [Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/

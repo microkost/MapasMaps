@@ -3,10 +3,10 @@
 <head>
 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
 <link rel="stylesheet" type="text/css" href="https://js.cit.api.here.com/v3/3.0/mapsjs-ui.css" />
-<script type="text/javascript" src="https://js.cit.api.here.com/v3/3.0/mapsjs-core.js"></script>
-<script type="text/javascript" src="https://js.cit.api.here.com/v3/3.0/mapsjs-service.js"></script>
-<script type="text/javascript" src="https://js.cit.api.here.com/v3/3.0/mapsjs-ui.js"></script>
-<script type="text/javascript" src="https://js.cit.api.here.com/v3/3.0/mapsjs-mapevents.js"></script>
+<script type="text/javascript" src="https://js.cit.api.here.com/v3/3.0/mapsjs-core.js" charset="UTF-8"></script>
+<script type="text/javascript" src="https://js.cit.api.here.com/v3/3.0/mapsjs-service.js" charset="UTF-8"></script>
+<script type="text/javascript" src="https://js.cit.api.here.com/v3/3.0/mapsjs-ui.js" charset="UTF-8"></script>
+<script type="text/javascript" src="https://js.cit.api.here.com/v3/3.0/mapsjs-mapevents.js" charset="UTF-8"></script>
 
 </head>
 <body>
@@ -41,8 +41,7 @@ var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
 var ui = H.ui.UI.createDefault(map, defaultLayers);
 
 // Now use the map as required...
-var group = new H.map.Group();
-
+  var group = new H.map.Group();
   map.addObject(group);
   group.addEventListener('tap', function (evt) 
   {

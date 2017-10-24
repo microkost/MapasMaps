@@ -104,7 +104,6 @@ function showGMap() //google maps https://developers.google.com/maps/documentati
         });
 
     var meteodata = getMarkerOptions();
-    //meteodata = ""; //debug
     var marker = new google.maps.Marker({ position: center, map: map });
 
     if (meteodata.length != 0) //if not empty then you can show infowindow
@@ -116,7 +115,7 @@ function showGMap() //google maps https://developers.google.com/maps/documentati
     }
 }
 
-function showBMap() 
+function showBMap() //bing maps, uses here maps as source
 {
     $("#mapView").empty();
     var cords = getCordsWGS84(false);
@@ -163,16 +162,19 @@ function showHMap() //Here maps https://developer.here.com/documentation/maps/
     var meteodata = getMarkerOptions();
 
     var group = new H.map.Group();
-    map.addObject(group);
+    map.addObject(group);    
     group.addEventListener('tap', function (evt)
     {
         var bubble = new H.ui.InfoBubble(evt.target.getPosition(), { content: evt.target.getData() });
-        ui.addBubble(bubble);
+        ui.addBubble(bubble);        
     }, false);
 
     var marker = new H.map.Marker(center);
     marker.setData(meteodata);
     group.addObject(marker);
+    //map.screenToGeo(evt.currentPointer.viewportX, evt.currentPointer.viewportY);
+    //map.screenToGeo(center);
+
 }
 
 function getCordsWGS84(lngFirst) //central cords returner
