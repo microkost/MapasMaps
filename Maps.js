@@ -167,8 +167,18 @@ function showHMap() //Here maps https://developer.here.com/documentation/maps/
 
     // Create an info bubble object at a specific geographic location:
     var meteodata = getMarkerOptions();
-    var bubble = new H.ui.InfoBubble({lng: '25.759134', lat: '62.241642' }, { content: meteodata });    
-    ui.addBubble(bubble); // Add info bubble to the UI:
+    //var bubble = new H.ui.InfoBubble({lng: '25.759134', lat: '62.241642' }, { content: meteodata });    
+    //ui.addBubble(bubble); // Add info bubble to the UI:
+
+    var coord = { lng: '25.759134', lat: '62.241642' };
+    //var bubble = new H.ui.InfoBubble(coord, { content: meteodata });
+
+    var bubble = new H.ui.InfoBubble({
+        lat: location.Location.DisplayPosition.Latitude,
+        lng: location.Location.DisplayPosition.Longitude
+    }, { content: meteodata });
+
+    ui.addBubble(bubble);
 }
 
 function getCordsWGS84(lngFirst) //central cords returner
