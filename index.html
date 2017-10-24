@@ -4,15 +4,17 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
-        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
     <link rel="stylesheet" href="stylesheet.css" media="all" type="text/css" />
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
-        crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
-        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+    <script src="http://js.api.here.com/v3/3.0/mapsjs-core.js" type="text/javascript" charset="utf-8"></script>
+    <script src="http://js.api.here.com/v3/3.0/mapsjs-service.js" type="text/javascript" charset="utf-8"></script>
+    <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+
     <script type="text/javascript" src="https://api.mapy.cz/loader.js"></script>
     <script type="text/javascript">Loader.load();</script>
     <script type="text/javascript" src="maps.js"></script>
@@ -32,11 +34,17 @@
             <div class="col-md-3">
                 <select class="form-control" id="selectMapSource" onchange="mapSelector(this.value);" onmousedown="this.value='';">
                     <option value="Smap">Seznam maps</option>
+<<<<<<< HEAD
                     <option value="Gmap">Google Maps</option>
+                    <option value="Hmap">Here Maps</option>
+=======
+                    <option value="Gmap">Google maps</option>
+                    <option value="Bmap">Bing maps</option>
+>>>>>>> d5b38e72dca92ed2a7949c4729ce85b3320b2aa5
                     <!-- dont add more when we are not finished with these... 
-                                                                             layers of these maps also as options! Turistic, ...
-                                                                             OSM, BING, http://www.opencyclemap.org/
-                                                                             similar to http://ondras.zarovi.cz/slides/mapyapi-fimuni/examples/podklady/  -->
+                    layers of these maps also as options! Turistic, ...
+                    OSM, BING, http://www.opencyclemap.org/
+                    similar to http://ondras.zarovi.cz/slides/mapyapi-fimuni/examples/podklady/  -->
 
                 </select>
 
@@ -51,22 +59,31 @@
             </div>
 
         </div>
+    </div>
 
+    <div class="container-fluid">
         <div class="row mapRow">
             <div class="col-md-12" id="mapView" style="width:100%; height:100%;"></div>
         </div>
-
-
-        <div class="row card">
-            <h6 class="card-block text-center">Jaroslav Seidel & Ivo Kostecký for JAMK</h6>
-        </div>
-
-
     </div>
 
 
 
+    <div class="container">
+        <div class="row card">
+            <h6 class="card-block text-center">CC 2017 - Jaroslav Seidel & Ivo Kostecký for JAMK - <a href="https://docs.google.com/presentation/d/1g7c4UVqYmjbho4nizk6jSxQ2u2JyN68bHLfk4HwqhIY/edit?usp=sharing" target="_blank">presentation</a>.</h6>
+        </div>
+<<<<<<< HEAD
+
+    </div>
+
+=======
+    </div>
+
+
+>>>>>>> d5b38e72dca92ed2a7949c4729ce85b3320b2aa5
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbrC1gcahZ3ugGtxRwgHyU4FeTmlGPJCg&callback=showGMap"></script>
+    <script type='text/javascript' src='http://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
 
 </body>
 

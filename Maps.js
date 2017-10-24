@@ -4,8 +4,8 @@ var zoomlevel = 13;
 var contentString = "";
 
 
-$(document).ready(function() {
-    $("#city").keyup(function(event) {
+$(document).ready(function () {
+    $("#city").keyup(function (event) {
         if (event.keyCode === 13) {
             $("#findBtn").click();
         }
@@ -14,9 +14,8 @@ $(document).ready(function() {
 
 //regular code start:
 function refreshView(refreshAlsoWeather) //method for refreshing visual data after some change
-{   
-    if (refreshAlsoWeather)
-    {
+{
+    if (refreshAlsoWeather) {
         var cords = getCordsWGS84(false); //get coords in google format
         getWeatherData(cords[0], cords[1]); //get weather for this coords to global property
     }
@@ -32,16 +31,16 @@ function refreshView(refreshAlsoWeather) //method for refreshing visual data aft
 
 function setMarkerOptions(city, temperature, weather_description, wind_speed) //string formating weather data
 {
-    this.contentString = 
-    '<div>' +
-    '<h1>' + city + '</h1>' +
-    '<p><strong>Actual weather: </strong>' + weather_description +
-    '<p><b>Temperature: </b>'+temperature+' °C</p>'+
-    '<p><b>Wind speed: </b>'+wind_speed+' m/s</p>'+
-    '</div>';
+    this.contentString =
+        '<div>' +
+        '<h1>' + city + '</h1>' +
+        '<p><strong>Actual weather: </strong>' + weather_description +
+        '<p><b>Temperature: </b>' + temperature + ' °C</p>' +
+        '<p><b>Wind speed: </b>' + wind_speed + ' m/s</p>' +
+        '</div>';
 }
 
-function getMarkerOptions(){
+function getMarkerOptions() {
     return this.contentString;
 }
 
@@ -52,7 +51,7 @@ window.load = function () //methods for Smap API
 };
 
 function showSMap() //Seznam mapy api (mapy.cz or api.mapy.cz)
-{    
+{
     var cords = getCordsWGS84(true); //different order lng and lat than Google!!!
     var center = SMap.Coords.fromWGS84(cords[0], cords[1]);
 
@@ -69,10 +68,10 @@ function showSMap() //Seznam mapy api (mapy.cz or api.mapy.cz)
     {
         var options = {};
         var marker = new SMap.Marker(center, "cityMarker", options);
-        layer.addMarker(marker);     
+        layer.addMarker(marker);
     }
     else //make a smartcard instead of regular marker
-    {        
+    {
         var marker = new SMap.Marker(mapa.getCenter()); //random generated ID of marker      
         var options = { anchor: { top: -50, bottom: 1 } }; //moves card out of place pointer
         var card = new SMap.Card("cityMarker", options);
@@ -82,12 +81,12 @@ function showSMap() //Seznam mapy api (mapy.cz or api.mapy.cz)
 
         layer.addMarker(marker); //placing marker to map
         mapa.addCard(card, marker.getCoords()); //placing open card to map (autoclick)
-    }        
-          
+    }
+
     //add https://api.mapy.cz/view?page=pointer
 
     var sync = new SMap.Control.Sync({ bottomSpace: 30 });
-    mapa.addControl(sync);    
+    mapa.addControl(sync);
 }
 
 function showGMap() //google maps https://developers.google.com/maps/documentation/javascript/
@@ -104,14 +103,57 @@ function showGMap() //google maps https://developers.google.com/maps/documentati
     var meteodata = getMarkerOptions();
     //meteodata = ""; //debug
     var marker = new google.maps.Marker({ position: center, map: map });
-    
+
     if (meteodata.length != 0) //if not empty then you can show infowindow
     {
         var infowindow = new google.maps.InfoWindow;
         infowindow.setContent(meteodata);
         infowindow.open(map, marker);
         marker.addListener('click', function () { infowindow.open(map, marker); });
-    }    
+    }
+}
+
+function showBMap() 
+{
+    var cords = getCordsWGS84(false);
+    var center = new Microsoft.Maps.Location(cords[0], cords[1]);
+    var meteodata = getMarkerOptions();
+
+    var map = new Microsoft.Maps.Map('#mapView', {
+        credentials: 'Arvn8chsNiRnXdKwD0C4h_BjG_zFoP_lSJnbtBNN-I8pS6NKogwpqMViaWHvtw8r',
+        center: center
+    });
+
+    //Create an infobox that will render in the center of the map.
+    var infobox = new Microsoft.Maps.Infobox(center, {
+        //title: 'Map Center',
+        
+        description: meteodata,
+        center: center,
+        maxHeight: 300
+        
+    });
+
+    //Assign the infobox to a map instance.
+    infobox.setMap(map);
+}
+
+function showHMap() //Here maps https://developer.here.com/documentation/maps/
+{
+    var platform = new H.service.Platform({ 'app_id': '2eviPbL6VJg3XZop4ZS7', 'app_code': 'b2n2503pETUQ4l55pm0Slg' }); // Initialize the platform object:    
+    var defaultLayers = platform.createDefaultLayers(); // Obtain the default map types from the platform object:
+   
+    var cords = getCordsWGS84(false);
+    var center = { lat: cords[0], lng: cords[1] };
+
+    // Instantiate (and display) a map object:
+    var map = new H.Map(
+        document.getElementById('mapView'),
+        defaultLayers.normal.map,
+        {
+            zoom: zoomlevel,
+            center: center
+        });   
 }
 
 function getCordsWGS84(lngFirst) //central cords returner
@@ -129,6 +171,7 @@ function setCordsWGS84(lat, lng) //cords handling
     this.cordsWGS84.lng = lng;
 }
 
+<<<<<<< HEAD
 function mapSelector(mapNameFromSelector) //for showing map by selecting
 {
     switch (mapNameFromSelector) {
@@ -140,6 +183,10 @@ function mapSelector(mapNameFromSelector) //for showing map by selecting
             //alert("Google");
             showGMap();
             break;
+        case "Hmap":
+            //alert("Here");
+            showHMap();
+            break;
         default:
             //alert("Default option");
             showSMap();
@@ -147,6 +194,8 @@ function mapSelector(mapNameFromSelector) //for showing map by selecting
     }
 }
 
+=======
+>>>>>>> d5b38e72dca92ed2a7949c4729ce85b3320b2aa5
 function locationSearch() //find coords, set coords, reshow map
 {
     var address = document.getElementById('city').value; //grabing text field from GUI
@@ -172,7 +221,7 @@ function locationSearch() //find coords, set coords, reshow map
 }
 
 function getWeatherData(lat, lng) //asking meteo service
-{   
+{
     var apiKey = "6239cee266b1f3dab20248a67da1f994";
     var city_name;
     var temp;
@@ -181,7 +230,7 @@ function getWeatherData(lat, lng) //asking meteo service
     var country_name;
     var weather_description;
 
-    $.getJSON("http://api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+lng+"&appid="+apiKey+"&units=metric",function(data){
+    $.getJSON("http://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lng + "&appid=" + apiKey + "&units=metric", function (data) {
 
         city_name = data["name"];
         weather_description = data["weather"][0]["description"];
@@ -191,7 +240,11 @@ function getWeatherData(lat, lng) //asking meteo service
 
         setMarkerOptions(city_name, temp, weather_description, wind_speed); //set it to marker builder
         refreshView(false);
+<<<<<<< HEAD
     });    
+}
+=======
+    });
 }
 
 function mapSelector(mapNameFromSelector) //for showing map by selecting
@@ -205,9 +258,14 @@ function mapSelector(mapNameFromSelector) //for showing map by selecting
             //alert("Google");
             showGMap();
             break;
+        case "Bmap":
+            //alert("Bing");
+            showBMap();
+            break;
         default:
             //alert("Default option");
             showSMap();
             break;
     }
 }
+>>>>>>> d5b38e72dca92ed2a7949c4729ce85b3320b2aa5
