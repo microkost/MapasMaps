@@ -156,23 +156,23 @@ function showHMap() //Here maps https://developer.here.com/documentation/maps/
             zoom: zoomlevel,
             center: center
         });   
-
-    //Step 3: make the map interactive
-    // MapEvents enables the event system
-    // Behavior implements default interactions for pan/zoom (also on mobile touch environments)
-    var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
-
-    // Create the default UI components
-    var ui = H.ui.UI.createDefault(map, defaultLayers);
-
-    // Create an info bubble object at a specific geographic location:
     
-    //var bubble = new H.ui.InfoBubble({lng: '25.759134', lat: '62.241642' }, { content: meteodata });    
-    //ui.addBubble(bubble); // Add info bubble to the UI:
+    var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map)); //make the map interactive        
+    var ui = H.ui.UI.createDefault(map, defaultLayers); // Create the default UI components
 
     var meteodata = getMarkerOptions();
-    var bubble = new H.ui.InfoBubble(center, { content: meteodata });    
-    ui.addBubble(bubble);
+
+    var group = new H.map.Group();
+    map.addObject(group);
+    group.addEventListener('tap', function (evt)
+    {
+        var bubble = new H.ui.InfoBubble(evt.target.getPosition(), { content: evt.target.getData() });
+        ui.addBubble(bubble);
+    }, false);
+
+    var marker = new H.map.Marker(center);
+    marker.setData(meteodata);
+    group.addObject(marker);
 }
 
 function getCordsWGS84(lngFirst) //central cords returner
