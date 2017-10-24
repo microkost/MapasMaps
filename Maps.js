@@ -125,7 +125,8 @@ function showBMap()
 
     var map = new Microsoft.Maps.Map('#mapView', {
         credentials: 'Arvn8chsNiRnXdKwD0C4h_BjG_zFoP_lSJnbtBNN-I8pS6NKogwpqMViaWHvtw8r',
-        center: center
+        center: center,
+        zoom: zoomlevel
     });    
 
     //Create an infobox that will render in the center of the map.
