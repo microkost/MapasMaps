@@ -11,6 +11,7 @@ Running at
 www.mapas.kostecky.cz
 
 Research details on https://goo.gl/fcP44H
+Demo video in case of technical dificulties during presentation: https://youtu.be/oezVhcacp88
 
 Project was focused na demonstration of use different map resources services through API and their potential usage during Mobile Application Development as alternative to Google Maps which can be not enough detail for certain usage.
 
